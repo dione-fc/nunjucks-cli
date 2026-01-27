@@ -1,6 +1,6 @@
 {
   "name": "@dione-fc/nunjucks-cli",
-  "version": "1.0.0-RC1",
+  "version": "1.0.0",
   "description": "A command-line interface for rendering Nunjucks templates",
   "repository": {
     "type": "git",
@@ -29,5 +29,15 @@
     "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "keywords": [
+    "nunjucks",
+    "cli",
+    "template",
+    "templating",
+    "command-line",
+    "render",
+    "json",
+    "typescript"
+  ]
 }
