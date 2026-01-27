@@ -1,7 +1,11 @@
 {
-  "name": "nunjucks-cli",
+  "name": "@dione-fc/nunjucks-cli",
   "version": "1.0.0-SNAPSHOT",
   "description": "A command-line interface for rendering Nunjucks templates",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dione-fc/nunjucks-cli.git"
+  },
   "author": "Dione Ceconello",
   "license": "MIT",
   "main": "main.js",
