@@ -15,7 +15,7 @@ describe('renderFile', () => {
     (jest.spyOn(nunjucks, 'renderString') as any).mockReturnValue(renderedContent);
     const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
-    renderFile('file.txt', { name: 'John' });
+    renderFile({ files: { input: 'file.txt', output: 'file.txt' }, params: { name: 'John' } });
 
     expect(fs.readFileSync).toHaveBeenCalledWith('file.txt', 'utf-8');
     expect(nunjucks.renderString).toHaveBeenCalledWith(fakeContent, { name: 'John' });

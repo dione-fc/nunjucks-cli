@@ -4,7 +4,8 @@ import { parseArgs } from 'util';
 import { renderFile } from './service/RenderFile';
 
 const options = {
-  path: { type: 'string', short: 'p', description: 'Path to file or folder to template', required: true },
+  input: { type: 'string', short: 'i', description: 'Path to file or folder to template', required: true },
+  output: { type: 'string', short: 'o', description: 'Output folder for the rendered template' },
   data: { type: 'string', short: 'd', multiple: true, description: 'Data to use for templating' },
   json: { type: 'string', short: 'j', description: 'JSON string to use for templating' },
   help: { type: 'boolean', short: 'h', description: 'Show help' }
@@ -16,23 +17,24 @@ Usage:
   nunjucks-cli --path <fileOrFolder> [--data key=value ...] [--json '{"key":"value"}']
 
 Options:
-  --path, -p   Path to file or folder to template (required)
-  --data, -d   Data to use for templating (can be repeated, e.g. --data key=value)
-  --json, -j   JSON string to use for templating
-  --help, -h   Show this help message
+  --input, -i   Path to file or folder to template (required)
+  --output, -o  Output folder for the rendered template
+  --data, -d    Data to use for templating (can be repeated, e.g. --data key=value)
+  --json        JSON string to use for templating
+  --help, -h    Show this help message
 `;
 
 function main(): void {
   const params: Record<string, any> = {};
   const { values } = parseArgs({ options });
-  const { path, data, json, help } = values;
+  const { input, output, data, json, help } = values;
 
   if (help) {
     console.log(helpText);
     process.exit(0);
   }
 
-  if (!path) {
+  if (!input) {
     console.error('Error: Path is required');
     process.exit(1);
   }
@@ -53,7 +55,7 @@ function main(): void {
     Object.assign(params, JSON.parse(json));
   }
 
-  listFiles({ path }).forEach(f => renderFile(f, params));
+  listFiles({ input, output: output ?? input }).forEach(files => renderFile({ files, params }));
 }
 
 main();

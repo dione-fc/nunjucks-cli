@@ -1,6 +1,6 @@
 {
   "name": "@dione-fc/nunjucks-cli",
-  "version": "1.0.0-SNAPSHOT",
+  "version": "1.0.0-RC1",
   "description": "A command-line interface for rendering Nunjucks templates",
   "repository": {
     "type": "git",
