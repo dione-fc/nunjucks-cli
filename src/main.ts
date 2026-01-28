@@ -24,7 +24,7 @@ Options:
   --help, -h    Show this help message
 `;
 
-function main(): void {
+async function main(): Promise<void> {
   const params: Record<string, any> = {};
   const { values } = parseArgs({ options });
   const { input, output, data, json, help } = values;
@@ -55,7 +55,8 @@ function main(): void {
     Object.assign(params, JSON.parse(json));
   }
 
-  listFiles({ input, output: output ?? input }).forEach(files => renderFile({ files, params }));
+  const files = await listFiles({ input, output: output ?? input });
+  files.forEach(file => renderFile({ files: file, params }));
 }
 
 main();

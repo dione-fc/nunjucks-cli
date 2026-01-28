@@ -1,29 +1,28 @@
 import fs from 'fs';
 import path from 'path';
+import { glob } from 'glob';
 
-export const listFiles = ({ input, output }: { input: string, output: string }): { input: string, output: string }[] => {
-  const files: { input: string, output: string }[] = [];
+export const listFiles = async ({ input, output }: { input: string, output: string }): Promise<{ input: string, output: string }[]> => {
 
   if (!fs.existsSync(input)) {
     throw new Error(`Path does not exist: ${input}`);
   }
 
   const stat = fs.statSync(input);
-
-  if (stat.isFile()) {
-    return [{ input: input, output }];
-  }
-
-  fs.readdirSync(input).forEach(entry => {
-    const fullPath = path.join(input, entry);
-    const entryStat = fs.statSync(fullPath);
-
-    if (entryStat.isDirectory()) {
-      files.push(...listFiles({ input: fullPath, output: path.join(output, entry) }));
-    } else if (entryStat.isFile()) {
-      files.push({ input: fullPath, output: path.join(output, entry) });
-    }
+  const isDirectory = stat.isDirectory();
+  const results = await glob(isDirectory ? `${input}/**/*` : input, {
+    ignore: {
+      childrenIgnored: p => ['node_modules', '.git'].includes(p.name),
+    },
+    nodir: true,
+    absolute: true,
   });
 
-  return files;
+  return results.map(filePath => {
+    const outputPath = isDirectory ? path.join(output, path.relative(input, filePath)) : path.join(output, path.basename(filePath));
+    return {
+      input: filePath,
+      output: outputPath,
+    };
+  });
 };
