@@ -19,6 +19,7 @@
     "dev": "ts-node src/main.ts"
   },
   "dependencies": {
+    "glob": "^13.0.0",
     "nunjucks": "^3.2.4"
   },
   "devDependencies": {
